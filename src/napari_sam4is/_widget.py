@@ -43,6 +43,7 @@ from qtpy.QtWidgets import (
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from ._navigation import AnnotationNavigator
 from ._utils import (
     check_image_type,
     create_json,
@@ -434,6 +435,9 @@ class SAMWidget(QWidget):
 
         self._updating_attr_ui = False
         self._connected_output_layer = None
+        self._navigator = AnnotationNavigator(
+            self._viewer, accept_selected=self._accept_selected
+        )
 
         # --- Display Settings group ---
         self._display_group = QGroupBox("Display Settings")
@@ -976,6 +980,7 @@ class SAMWidget(QWidget):
         layer.bind_key("E", lambda _: self._send_selected_to_predict())
         layer.bind_key("H", lambda _: self._merge_selected_to_holes())
         layer.bind_key("U", lambda _: self._split_selected_rings())
+        self._navigator.connect(layer)
         self._connected_output_layer = layer
 
     def _disconnect_output_layer_events(self):
@@ -990,6 +995,7 @@ class SAMWidget(QWidget):
             for key in ("E", "H", "U"):
                 with contextlib.suppress(TypeError, RuntimeError):
                     self._connected_output_layer.bind_key(key, None)
+            self._navigator.disconnect()
             self._connected_output_layer = None
 
     # --- Display Settings Handlers ---

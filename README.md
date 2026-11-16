@@ -199,6 +199,19 @@ Each annotation can have additional attributes to support quality control workfl
 4. Attributes are saved as part of the COCO JSON output under each annotation's `"attributes"` field.
 5. When multiple annotations are selected with mixed attribute values, checkboxes show a mixed state indicator.
 
+### Navigating Between Annotations (Review Shortcuts)
+While the output Shapes layer is selected, you can step through annotations with the keyboard alone. The target annotation is selected and centered in the view, and the current position is shown in the status bar.
+
+| Key | Action |
+|---|---|
+| **]** / **[** | Next / previous annotation, in drawing order (wraps around at the ends) |
+| **N** / **Shift+N** | Next / previous annotation that has not been accepted yet |
+| **Alt+A** | Accept the selected annotation and jump to the next one not yet accepted |
+| **Shift+Arrow keys** | Nearest annotation in that direction |
+| **Alt+B** | Back to the previously selected annotation |
+
+**N** and **Alt+A** let you review only the annotations that still need checking, for example after creating many of them with SAM 3 Detect All.
+
 ### Display Settings
 The **Display Settings** panel lets you customize the appearance of annotation layers and persist those preferences across sessions.
 
