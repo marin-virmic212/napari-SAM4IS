@@ -43,7 +43,7 @@ from qtpy.QtWidgets import (
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from ._navigation import AnnotationNavigator
+from ._navigation import NavigationPanel
 from ._utils import (
     check_image_type,
     create_json,
@@ -435,9 +435,9 @@ class SAMWidget(QWidget):
 
         self._updating_attr_ui = False
         self._connected_output_layer = None
-        self._navigator = AnnotationNavigator(
-            self._viewer, accept_selected=self._accept_selected
-        )
+        self._navigation_panel = NavigationPanel(self)
+        self._navigator = self._navigation_panel.navigator
+        self.vbox.addWidget(self._navigation_panel)
 
         # --- Display Settings group ---
         self._display_group = QGroupBox("Display Settings")
